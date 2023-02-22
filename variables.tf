@@ -1,34 +1,18 @@
-variable "name" {
-  type        = string
-  description = "Name of the EC2 Transit Gateway"
+variable "cloudwatch_flow_logs_configuration" {
+  type = object({
+    kms_key_arn              = optional(string)
+    log_group_name           = optional(string, "/platform/transit-gateway-flow-logs")
+    max_aggregation_interval = optional(number, 60)
+    retention_in_days        = optional(number, 90)
+    traffic_type             = optional(string, "ALL")
+  })
+  default     = {}
+  description = "Cloudwatch flow logs configuration"
 }
 
 variable "description" {
   type        = string
   description = "Description of the EC2 Transit Gateway"
-}
-
-variable "tags" {
-  type        = map(string)
-  description = "Map of tags to set on Terraform created resources"
-}
-
-variable "transit_gateway_asn" {
-  type        = number
-  default     = 64512
-  description = "BGP ASN used on the Transit Gateway"
-}
-
-variable "transit_gateway_default_route_table_association" {
-  type        = string
-  default     = "disable"
-  description = "Whether resource attachments are automatically associated with the default association route table"
-}
-
-variable "transit_gateway_default_route_table_propagation" {
-  type        = string
-  default     = "disable"
-  description = "Whether resource attachments automatically propagate routes to the default propagation route table"
 }
 
 variable "enable_cloudwatch_flow_logs" {
@@ -43,16 +27,26 @@ variable "enable_s3_flow_logs" {
   description = "Set to true to enable Transit Gateway flow logs to be stored in S3"
 }
 
-variable "cloudwatch_flow_logs_configuration" {
-  type = object({
-    kms_key_arn              = optional(string)
-    log_group_name           = optional(string, "/platform/transit-gateway-flow-logs")
-    max_aggregation_interval = optional(number, 60)
-    retention_in_days        = optional(number, 90)
-    traffic_type             = optional(string, "ALL")
-  })
-  default     = {}
-  description = "Cloudwatch flow logs configuration"
+variable "tags" {
+  type        = map(string)
+  description = "Map of tags to set on Terraform created resources"
+}
+
+variable "name" {
+  type        = string
+  description = "Name of the EC2 Transit Gateway"
+}
+
+variable "transit_gateway_asn" {
+  type        = number
+  default     = 64512
+  description = "BGP ASN used on the Transit Gateway"
+}
+
+variable "route_tables" {
+  type        = list(any)
+  default     = ["default"]
+  description = "Route Tables to create on the Transit Gateway"
 }
 
 variable "s3_flow_logs_configuration" {
@@ -67,6 +61,18 @@ variable "s3_flow_logs_configuration" {
   description = "S3 flow logs configuration"
 }
 
+variable "transit_gateway_default_route_table_association" {
+  type        = string
+  default     = "disable"
+  description = "Whether resource attachments are automatically associated with the default association route table"
+}
+
+variable "transit_gateway_default_route_table_propagation" {
+  type        = string
+  default     = "disable"
+  description = "Whether resource attachments automatically propagate routes to the default propagation route table"
+}
+
 variable "transit_gateway_peering" {
   type = map(object({
     peer_account_id         = string
@@ -77,12 +83,6 @@ variable "transit_gateway_peering" {
   }))
   default     = {}
   description = "Transit Gateway peering configuration"
-}
-
-variable "route_tables" {
-  type        = list(any)
-  default     = ["default"]
-  description = "Route Tables to create on the Transit Gateway"
 }
 
 variable "transit_gateway_sharing" {
