@@ -30,11 +30,17 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: for d in examples/*/; do; terraform -chdir=$d init; done
+        run: |
+          for d in examples/*/; do
+            terraform -chdir=$d init
+          done
 
       - name: Terraform Validate
         id: validate
-        run: for d in examples/*/; do;terraform -chdir=$d validate -no-color; done
+        run: |
+          for d in examples/*/; do
+            terraform -chdir=$d validate -no-color
+          done
         env:
           AWS_DEFAULT_REGION: eu-west-1
 
