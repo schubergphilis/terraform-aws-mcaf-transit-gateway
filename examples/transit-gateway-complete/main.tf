@@ -6,6 +6,10 @@ module "transit_gateway" {
 
   route_tables = ["shared", "vpc", "isolated"]
 
+  cloudwatch_flow_logs_configuration = {
+    kms_key_arn = module.kms_key.arn
+  }
+
   transit_gateway_peering = {
     peering-1 = {
       peer_account_id         = "111111111111",
@@ -37,6 +41,7 @@ module "transit_gateway" {
       route_table_propagation     = ["shared", "vpc"]
       tunnel1_options             = { inside_cidr = "169.254.10.0/30" }
       tunnel2_options             = { inside_cidr = "169.254.10.4/30" }
+      vpn_log_kms_key_arn         = module.kms_key.arn
     }
   }
 

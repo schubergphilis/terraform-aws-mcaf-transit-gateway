@@ -1,5 +1,10 @@
 # terraform-aws-mcaf-transit-gateway
-Terraform module to setup and manage a transit gateway
+Terraform module to setup and manage a Transit Gateway, it supports the following features:
+ - Peering with another Transit Gateway
+ - Sharing the Transit Gateway with other accounts
+ - Creation and attachment of VPN connections
+
+ Please see the `examples` directory for how to use the module. Below is also additional information on the two step/run process of sharing and peering.
 
 # Transit Gateway peering
 Peering a Transit Gateway is done in two steps, first the peering invite is send to the specified account and transit gateway. Second when the peering invite has been accepted by the other party the peering attachment becomes ready and configuration like the route table association and routing can be done.
