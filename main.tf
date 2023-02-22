@@ -165,7 +165,7 @@ resource "aws_ec2_transit_gateway_peering_attachment" "default" {
 }
 
 resource "aws_ec2_transit_gateway_route_table_association" "peering" {
-  for_each = var.transit_gateway_peering
+  for_each = { for name, peering_configuration in var.transit_gateway_peering : name => peering_configuration if peering_configuration.route_table_association != "" }
 
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.default[each.key].id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.default[each.value.route_table_association].id
@@ -215,6 +215,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment_accepter" "default" {
 }
 
 resource "time_sleep" "ten_seconds" {
+  for_each = { for name, sharing_configuration in var.transit_gateway_sharing : name => sharing_configuration if sharing_configuration.transit_gateway_attachment_id != "" }
+
   create_duration = "10s"
   depends_on      = [aws_ec2_transit_gateway_vpc_attachment_accepter.default]
 }

@@ -13,6 +13,7 @@ transit_gateway_peering = {
     peer_region             = "eu-west-1",
     peer_transit_gateway_id = "tgw-0123456789abcdefg"
     route_table_association = ""
+    peer_routes             = {}
   }
 }
 ```
