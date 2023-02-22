@@ -4,7 +4,7 @@ Terraform module to setup and manage a Transit Gateway, it supports the followin
  - Sharing the Transit Gateway with other accounts
  - Creation and attachment of VPN connections
 
- Please see the `examples` directory for how to use the module. Below is also additional information on the two step/run process of sharing and peering.
+Please take note of the information below regarding the usage of the module. Complete code examples can be found in the [examples](/examples/) directory.
 
 # Transit Gateway peering
 Peering a Transit Gateway is done in two steps, first the peering invite is send to the specified account and transit gateway. Second when the peering invite has been accepted by the other party the peering attachment becomes ready and configuration like the route table association and routing can be done.
@@ -42,7 +42,7 @@ transit_gateway_peering = {
 ```
 
 # Transit Gateway sharing
-Sharing a Transit Gateway is done in two steps, first step is to share the Transit Gateway which makes it available in the remote account. Step two is accepting the attachment, configuring the route table association and propagation after a VPC has been attached to the Transit Gateway in the remote account.
+Sharing a Transit Gateway is done in two steps, first is to share the Transit Gateway which makes it available in the specified account. Second, when the the other party has created the Transit Gateway attachment in the specified account, is accepting the attachment and configuring the route table association and propagation.
 
 ## 1) Sharing the Transit Gateway with the specified account
 Example sharing the Transit gateway in the first Terraform run:
@@ -69,6 +69,10 @@ transit_gateway_sharing = {
   }
 }
 ```
+
+# Using KMS encryption for the logs
+The module supports using a KMS key to encrypt the logfiles created by the Transit Gateway or the VPNs.
+PLease note that the [example provided](/examples/transit-gateway-complete) uses a [KMS key policy](/examples/transit-gateway-complete/kms.tf) that works out of the box but is not scoped down to least privilege.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
