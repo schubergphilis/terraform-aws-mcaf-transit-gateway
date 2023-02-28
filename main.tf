@@ -92,7 +92,7 @@ resource "aws_iam_role_policy_attachment" "transit_gateway_cloudwatch_flow_logs"
 resource "aws_iam_policy" "transit_gateway_cloudwatch_flow_logs" {
   count = var.enable_cloudwatch_flow_logs ? 1 : 0
 
-  name_prefix = "transit_gateway-flow-logs-to-cloudwatch-"
+  name_prefix = "transit-gateway-flow-logs-to-cloudwatch-"
   policy      = data.aws_iam_policy_document.transit_gateway_cloudwatch_flow_log.json
 }
 
