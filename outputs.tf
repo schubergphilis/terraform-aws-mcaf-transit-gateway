@@ -1,5 +1,5 @@
 output "transit_gateway_id" {
-  description = "Transit Gateway and route table ID"
+  description = "Transit Gateway identifier"
   value       = aws_ec2_transit_gateway.default.id
 }
 

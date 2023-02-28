@@ -38,6 +38,10 @@ locals {
   ])
 }
 
+data "aws_caller_identity" "default" {}
+
+data "aws_region" "default" {}
+
 ################################################################################
 # Transit gateway
 ################################################################################
@@ -108,7 +112,7 @@ data "aws_iam_policy_document" "transit_gateway_cloudwatch_flow_log" {
       "logs:DescribeLogStreams",
     ]
 
-    resources = ["arn:aws:logs:*:*:log-group:*:*"]
+    resources = ["arn:aws:logs:${data.aws_region.default.name}:${data.aws_caller_identity.default.account_id}:log-group:*:*"]
   }
 }
 
