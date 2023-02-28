@@ -72,7 +72,7 @@ transit_gateway_sharing = {
 
 # Using KMS encryption for the logs
 The module supports using a KMS key to encrypt the logfiles created by the Transit Gateway or the VPNs.
-PLease note that the [example provided](/examples/transit-gateway-complete) uses a [KMS key policy](/examples/transit-gateway-complete/kms.tf) that works out of the box but is not scoped down to least privilege.
+Please note that the [example provided](/examples/transit-gateway-complete) uses a [KMS key policy](/examples/transit-gateway-complete/kms.tf) that works out of the box but is not scoped down to least privilege.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
