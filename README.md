@@ -79,16 +79,16 @@ Please note that the [example provided](/examples/transit-gateway-complete) uses
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.39.0 |
-| <a name="requirement_time"></a> [time](#requirement\_time) | 0.9.1 |
+| <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.39.0 |
-| <a name="provider_time"></a> [time](#provider\_time) | 0.9.1 |
+| <a name="provider_time"></a> [time](#provider\_time) | >= 0.9.0 |
 
 ## Modules
 
@@ -121,9 +121,11 @@ No modules.
 | [aws_ram_resource_association.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ram_resource_association) | resource |
 | [aws_ram_resource_share.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ram_resource_share) | resource |
 | [aws_vpn_connection.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_connection) | resource |
-| [time_sleep.ten_seconds](https://registry.terraform.io/providers/hashicorp/time/0.9.1/docs/resources/sleep) | resource |
+| [time_sleep.ten_seconds](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [aws_caller_identity.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.transit_gateway_cloudwatch_flow_log](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.transit_gateway_cloudwatch_flow_logs_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_region.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
@@ -138,8 +140,8 @@ No modules.
 | <a name="input_route_tables"></a> [route\_tables](#input\_route\_tables) | Route Tables to create on the Transit Gateway | `list(any)` | <pre>[<br>  "default"<br>]</pre> | no |
 | <a name="input_s3_flow_logs_configuration"></a> [s3\_flow\_logs\_configuration](#input\_s3\_flow\_logs\_configuration) | S3 flow logs configuration | <pre>object({<br>    max_aggregation_interval = optional(number, 60)<br>    traffic_type             = optional(string, "ALL")<br>    file_format              = optional(string, "parquet")<br>    per_hour_partition       = optional(bool, true)<br>    log_destination          = optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_transit_gateway_asn"></a> [transit\_gateway\_asn](#input\_transit\_gateway\_asn) | BGP ASN used on the Transit Gateway | `number` | `64512` | no |
-| <a name="input_transit_gateway_default_route_table_association"></a> [transit\_gateway\_default\_route\_table\_association](#input\_transit\_gateway\_default\_route\_table\_association) | Whether resource attachments are automatically associated with the default association route table | `string` | `"disable"` | no |
-| <a name="input_transit_gateway_default_route_table_propagation"></a> [transit\_gateway\_default\_route\_table\_propagation](#input\_transit\_gateway\_default\_route\_table\_propagation) | Whether resource attachments automatically propagate routes to the default propagation route table | `string` | `"disable"` | no |
+| <a name="input_transit_gateway_default_route_table_association"></a> [transit\_gateway\_default\_route\_table\_association](#input\_transit\_gateway\_default\_route\_table\_association) | Whether resource attachments are automatically associated with the default association route table | `bool` | `false` | no |
+| <a name="input_transit_gateway_default_route_table_propagation"></a> [transit\_gateway\_default\_route\_table\_propagation](#input\_transit\_gateway\_default\_route\_table\_propagation) | Whether resource attachments automatically propagate routes to the default propagation route table | `bool` | `false` | no |
 | <a name="input_transit_gateway_peering"></a> [transit\_gateway\_peering](#input\_transit\_gateway\_peering) | Transit Gateway peering configuration | <pre>map(object({<br>    peer_account_id         = string<br>    peer_region             = string<br>    peer_transit_gateway_id = string<br>    route_table_association = string<br>    peer_routes             = map(list(string))<br>  }))</pre> | `{}` | no |
 | <a name="input_transit_gateway_sharing"></a> [transit\_gateway\_sharing](#input\_transit\_gateway\_sharing) | Transit Gateway sharing configuration | <pre>map(object({<br>    principal_account_id          = string<br>    route_table_association       = string<br>    route_table_propagation       = list(string)<br>    transit_gateway_attachment_id = string<br>  }))</pre> | `{}` | no |
 | <a name="input_vpn_connection"></a> [vpn\_connection](#input\_vpn\_connection) | VPN connection configuration | <pre>map(object({<br>    customer_gateway_bgp_asn    = number<br>    customer_gateway_ip_address = string<br>    enable_logs                 = optional(bool, true)<br>    log_kms_key_arn             = optional(string)<br>    log_group_arn               = optional(string)<br>    log_group_name              = optional(string, "/platform/transit-gateway-vpn-logs")<br>    log_output_format           = optional(string, "json")<br>    retention_in_days           = optional(number, 90)<br>    route_table_association     = string<br>    route_table_propagation     = list(string)<br>    tunnel1_options = object({<br>      dpd_timeout_action           = optional(string, "clear")<br>      dpd_timeout_seconds          = optional(number, 30)<br>      ike_versions                 = optional(list(string), ["ikev2"])<br>      inside_cidr                  = string<br>      phase1_dh_group_numbers      = optional(list(number), [21])<br>      phase1_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase1_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase1_lifetime_seconds      = optional(number, 28800)<br>      phase2_dh_group_numbers      = optional(list(number), [21])<br>      phase2_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase2_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase2_lifetime_seconds      = optional(number, 3600)<br>      rekey_fuzz_percentage        = optional(number, 100)<br>      rekey_margin_time_seconds    = optional(number, 540)<br>      replay_window_size           = optional(number, 1024)<br>      startup_action               = optional(string, "add")<br>    })<br>    tunnel2_options = object({<br>      dpd_timeout_action           = optional(string, "clear")<br>      dpd_timeout_seconds          = optional(number, 30)<br>      ike_versions                 = optional(list(string), ["ikev2"])<br>      inside_cidr                  = string<br>      phase1_dh_group_numbers      = optional(list(number), [21])<br>      phase1_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase1_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase1_lifetime_seconds      = optional(number, 28800)<br>      phase2_dh_group_numbers      = optional(list(number), [21])<br>      phase2_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase2_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase2_lifetime_seconds      = optional(number, 3600)<br>      rekey_fuzz_percentage        = optional(number, 100)<br>      rekey_margin_time_seconds    = optional(number, 540)<br>      replay_window_size           = optional(number, 1024)<br>      startup_action               = optional(string, "add")<br>    })<br>  }))</pre> | `{}` | no |
@@ -148,6 +150,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_transit_gateway_id"></a> [transit\_gateway\_id](#output\_transit\_gateway\_id) | Transit Gateway and route table ID |
-| <a name="output_transit_gateway_route_table_id"></a> [transit\_gateway\_route\_table\_id](#output\_transit\_gateway\_route\_table\_id) | Transit Gateway Route Table identifier |
+| <a name="output_transit_gateway_id"></a> [transit\_gateway\_id](#output\_transit\_gateway\_id) | Transit Gateway identifier |
+| <a name="output_transit_gateway_route_table_id"></a> [transit\_gateway\_route\_table\_id](#output\_transit\_gateway\_route\_table\_id) | Transit Gateway Route Table and route table ID |
 <!-- END_TF_DOCS -->
