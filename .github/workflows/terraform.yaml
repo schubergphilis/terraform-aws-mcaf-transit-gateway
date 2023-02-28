@@ -109,8 +109,6 @@ jobs:
           git-push: true
           output-file: README.md
           output-method: inject
-          recursive: true
-          recursive-path: examples
         continue-on-error: true # added this to prevent a PR from a remote fork failing the workflow
 
   tfsec:
