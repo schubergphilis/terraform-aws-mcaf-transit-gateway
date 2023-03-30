@@ -4,8 +4,17 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
+      - id: check-json
+      - id: check-merge-conflict
       - id: trailing-whitespace
       - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: pretty-format-json
+        args:
+          - --autofix
+      - id: detect-aws-credentials
+      - id: detect-private-key
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.77.1
     hooks:
@@ -14,7 +23,7 @@ repos:
       - id: terraform_docs
       - id: terraform_validate
   - repo: https://github.com/bridgecrewio/checkov.git
-    rev: 2.3.34 # checkov-action v12.2150.0 == checkov 2.3.34 - Keep this config in sync with .github/workflows/terraform.yml
+    rev: 2.3.34 # checkov-action v12.2150.0 == checkov 2.3.34 - Keep this config in sync with .github/workflows/terraform-validation.yml
     hooks:
       - id: checkov
         verbose: false
