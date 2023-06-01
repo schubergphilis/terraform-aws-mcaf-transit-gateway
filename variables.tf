@@ -1,5 +1,7 @@
 variable "cloudwatch_flow_logs_configuration" {
   type = object({
+    iam_policy_name_prefix   = optional(string, "transit-gateway-flow-logs-to-cloudwatch-")
+    iam_role_name_prefix     = optional(string, "transit-gateway-flow-logs-role-")
     kms_key_arn              = optional(string)
     log_group_name           = optional(string, "/platform/transit-gateway-flow-logs")
     max_aggregation_interval = optional(number, 60)

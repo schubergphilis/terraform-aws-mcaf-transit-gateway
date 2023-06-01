@@ -68,7 +68,7 @@ resource "aws_ec2_transit_gateway_route_table" "default" {
 resource "aws_iam_role" "transit_gateway_cloudwatch_flow_logs" {
   count = var.enable_cloudwatch_flow_logs ? 1 : 0
 
-  name_prefix        = "transit-gateway-flow-logs-role-"
+  name_prefix        = var.cloudwatch_flow_logs_configuration.iam_role_name_prefix
   assume_role_policy = data.aws_iam_policy_document.transit_gateway_cloudwatch_flow_logs_assume_role.json
 }
 
@@ -96,7 +96,7 @@ resource "aws_iam_role_policy_attachment" "transit_gateway_cloudwatch_flow_logs"
 resource "aws_iam_policy" "transit_gateway_cloudwatch_flow_logs" {
   count = var.enable_cloudwatch_flow_logs ? 1 : 0
 
-  name_prefix = "transit-gateway-flow-logs-to-cloudwatch-"
+  name_prefix = var.cloudwatch_flow_logs_configuration.iam_policy_name_prefix
   policy      = data.aws_iam_policy_document.transit_gateway_cloudwatch_flow_log.json
 }
 
