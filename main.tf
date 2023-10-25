@@ -203,7 +203,7 @@ resource "aws_ec2_transit_gateway_route" "peering" {
   for_each = { for route in local.transit_gateway_peering_routes : "${route.peer_name}_${route.route_table}_${route.route}" => route }
 
   destination_cidr_block         = each.value.route
-  transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.default[each.value.peer_name].id
+  transit_gateway_attachment_id  = each.value.blackhole == false ? aws_ec2_transit_gateway_peering_attachment.default[each.value.peer_name].id : null
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.default[each.value.route_table].id
   blackhole                      = each.value.blackhole
 }
