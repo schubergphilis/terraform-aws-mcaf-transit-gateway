@@ -19,14 +19,14 @@ locals {
       }
     ]
   ])
-  
+
   transit_gateway_blackhole_route_tables = flatten([
     for key, peer in var.transit_gateway_peering : [
-        for route_table, routes in peer.blackhole_routes : {
-          peer_name   = key
-          route_table = route_table
-          routes      = routes
-        }
+      for route_table, routes in peer.blackhole_routes : {
+        peer_name   = key
+        route_table = route_table
+        routes      = routes
+      }
     ]
   ])
 
