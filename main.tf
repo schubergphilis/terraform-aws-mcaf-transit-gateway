@@ -9,15 +9,39 @@ locals {
     ]
   ])
 
-  transit_gateway_peering_routes = flatten([
+  transit_gateway_peering = flatten([
     for peer in local.transit_gateway_peering_route_tables : [
       for route in peer.routes : {
         peer_name   = peer.peer_name
+        blackhole   = false
         route_table = peer.route_table
         route       = route
       }
     ]
   ])
+  
+  transit_gateway_blackhole_route_tables = flatten([
+    for key, peer in var.transit_gateway_peering : [
+        for route_table, routes in peer.blackhole_routes : {
+          peer_name   = key
+          route_table = route_table
+          routes      = routes
+        }
+    ]
+  ])
+
+  transit_gateway_blackhole = flatten([
+    for peer in local.transit_gateway_blackhole_route_tables : [
+      for route in peer.routes : {
+        peer_name   = peer.peer_name
+        blackhole   = true
+        route_table = peer.route_table
+        route       = route
+      }
+    ]
+  ])
+
+  transit_gateway_peering_routes = flatten([local.transit_gateway_peering, local.transit_gateway_blackhole])
 
   transit_gateway_sharing_route_table_propagation = flatten([
     for name in var.transit_gateway_sharing : [
@@ -181,6 +205,7 @@ resource "aws_ec2_transit_gateway_route" "peering" {
   destination_cidr_block         = each.value.route
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_peering_attachment.default[each.value.peer_name].id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.default[each.value.route_table].id
+  blackhole                      = each.value.blackhole
 }
 
 ################################################################################

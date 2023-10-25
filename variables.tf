@@ -82,6 +82,7 @@ variable "transit_gateway_peering" {
     peer_transit_gateway_id = string
     route_table_association = string
     peer_routes             = map(list(string))
+    blackhole_routes        = optional(map(list(string)), {})
   }))
   default     = {}
   description = "Transit Gateway peering configuration"

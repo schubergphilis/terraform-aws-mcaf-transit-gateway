@@ -41,6 +41,29 @@ transit_gateway_peering = {
 }
 ```
 
+## 3) Configuring the association and routing including blackhole routes
+Example setting the route table assocation and static routes from in route tables in the second Terraform run after the remote party has accepted the peering request, including blackhole routes:
+```terraform
+transit_gateway_peering = {
+  peering-1 = {
+    peer_account_id         = "111111111111",
+    peer_region             = "eu-west-1",
+    peer_transit_gateway_id = "tgw-0123456789abcdefg"
+    route_table_association = "vpc"
+
+    peer_routes = {
+      shared = ["10.1.1.0/24", "192.168.10.0/24"]
+      test   = ["10.2.2.0/24", "192.168.10.0/24"]
+    }
+
+    blackhole_routes = {
+      shared = ["10.2.2.0/24", "192.168.9.0/24"]
+      test   = ["10.1.1.0/24", "192.168.9.0/24"]
+    }
+  }
+}
+```
+
 # Transit Gateway sharing
 Sharing a Transit Gateway is done in two steps, first is to share the Transit Gateway which makes it available in the specified account. Second, when the the other party has created the Transit Gateway attachment in the specified account, is accepting the attachment and configuring the route table association and propagation.
 
