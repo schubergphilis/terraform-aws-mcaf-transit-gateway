@@ -63,6 +63,12 @@ variable "transit_gateway_asn" {
   default     = 64512
 }
 
+variable "transit_gateway_auto_accept_shared_attachments" {
+  type        = bool
+  default     = false
+  description = "Whether resource attachment requests are automatically accepted"
+}
+
 variable "transit_gateway_default_route_table_association" {
   type        = bool
   default     = false
