@@ -48,9 +48,10 @@ data "aws_region" "default" {}
 
 resource "aws_ec2_transit_gateway" "default" {
   amazon_side_asn                 = var.transit_gateway_asn
-  description                     = var.description
+  auto_accept_shared_attachments  = var.transit_gateway_auto_accept_shared_attachments ? "enable" : "disable"
   default_route_table_association = var.transit_gateway_default_route_table_association ? "enable" : "disable"
   default_route_table_propagation = var.transit_gateway_default_route_table_propagation ? "enable" : "disable"
+  description                     = var.description
   tags                            = merge(var.tags, { Name = var.name })
 }
 
