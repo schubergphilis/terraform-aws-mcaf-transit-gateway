@@ -24,7 +24,7 @@ transit_gateway_peering = {
 ```
 
 ## 2) Configuring the association and routing
-Example setting the route table assocation and static routes from in route tables in the second Terraform run after the remote party has accepted the peering request:
+Example setting the route table assocation and static routes from in route tables in the second Terraform run after the remote party has accepted the peering request, excluding optional blackhole routes:
 ```terraform
 transit_gateway_peering = {
   peering-1 = {
@@ -36,6 +36,28 @@ transit_gateway_peering = {
     peer_routes = {
       shared = ["10.1.1.0/24", "192.168.10.0/24"]
       test   = ["10.2.2.0/24", "192.168.10.0/24"]
+    }
+  }
+}
+```
+
+Example setting the route table assocation and static routes from in route tables in the second Terraform run after the remote party has accepted the peering request, including blackhole routes:
+```terraform
+transit_gateway_peering = {
+  peering-1 = {
+    peer_account_id         = "111111111111",
+    peer_region             = "eu-west-1",
+    peer_transit_gateway_id = "tgw-0123456789abcdefg"
+    route_table_association = "vpc"
+
+    peer_routes = {
+      shared = ["10.1.1.0/24", "192.168.10.0/24"]
+      test   = ["10.2.2.0/24", "192.168.10.0/24"]
+    }
+
+    blackhole_routes = {
+      shared = ["10.2.2.0/24", "192.168.9.0/24"]
+      test   = ["10.1.1.0/24", "192.168.9.0/24"]
     }
   }
 }
