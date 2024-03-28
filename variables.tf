@@ -95,13 +95,13 @@ variable "transit_gateway_peering" {
 
 variable "transit_gateway_sharing" {
   type = map(object({
-    principal_account_id          = string
-    route_table_association       = string
-    route_table_propagation       = list(string)
-    transit_gateway_attachment_id = string
+    principal                     = string
+    route_table_association       = optional(string, "")
+    route_table_propagation       = optional(list(string), [])
+    transit_gateway_attachment_id = optional(string, "")
   }))
   default     = {}
-  description = "Transit Gateway sharing configuration"
+  description = "Transit Gateway sharing configuration. Possible principal is an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN."
 }
 
 variable "vpn_connection" {

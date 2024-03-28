@@ -49,10 +49,7 @@ Example sharing the Transit gateway in the first Terraform run:
 ```terraform
 transit_gateway_sharing = {
   sharing-1 = {
-    principal_account_id          = "222222222222"
-    route_table_association       = ""
-    route_table_propagation       = []
-    transit_gateway_attachment_id = ""
+    principal = "222222222222"
   }
 }
 ```
@@ -62,13 +59,15 @@ Example accepting the attachment, setting the route table assocation and propaga
 ```terraform
 transit_gateway_sharing = {
   sharing-1 = {
-    principal_account_id          = "222222222222"
+    principal                     = "222222222222"
     route_table_association       = "vpc"
     route_table_propagation       = ["shared", "vpc"]
     transit_gateway_attachment_id = "tgw-attach-062000946f17af583"
   }
 }
 ```
+
+Note: accepting the attachment can also be accepted automatically by setting `var.transit_gateway_auto_accept_shared_attachments` to true. 
 
 # Using KMS encryption for the logs
 The module supports using a KMS key to encrypt the logfiles created by the Transit Gateway or the VPNs.
