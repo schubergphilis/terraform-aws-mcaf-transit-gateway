@@ -49,10 +49,7 @@ Example sharing the Transit gateway in the first Terraform run:
 ```terraform
 transit_gateway_sharing = {
   sharing-1 = {
-    principal_account_id          = "222222222222"
-    route_table_association       = ""
-    route_table_propagation       = []
-    transit_gateway_attachment_id = ""
+    principal = "222222222222"
   }
 }
 ```
@@ -62,13 +59,15 @@ Example accepting the attachment, setting the route table assocation and propaga
 ```terraform
 transit_gateway_sharing = {
   sharing-1 = {
-    principal_account_id          = "222222222222"
+    principal                     = "222222222222"
     route_table_association       = "vpc"
     route_table_propagation       = ["shared", "vpc"]
     transit_gateway_attachment_id = "tgw-attach-062000946f17af583"
   }
 }
 ```
+
+Note: accepting the attachment can also be accepted automatically by setting `var.transit_gateway_auto_accept_shared_attachments` to true. 
 
 # Using KMS encryption for the logs
 The module supports using a KMS key to encrypt the logfiles created by the Transit Gateway or the VPNs.
@@ -144,7 +143,7 @@ No modules.
 | <a name="input_transit_gateway_default_route_table_association"></a> [transit\_gateway\_default\_route\_table\_association](#input\_transit\_gateway\_default\_route\_table\_association) | Whether resource attachments are automatically associated with the default association route table | `bool` | `false` | no |
 | <a name="input_transit_gateway_default_route_table_propagation"></a> [transit\_gateway\_default\_route\_table\_propagation](#input\_transit\_gateway\_default\_route\_table\_propagation) | Whether resource attachments automatically propagate routes to the default propagation route table | `bool` | `false` | no |
 | <a name="input_transit_gateway_peering"></a> [transit\_gateway\_peering](#input\_transit\_gateway\_peering) | Transit Gateway peering configuration | <pre>map(object({<br>    peer_account_id         = string<br>    peer_region             = string<br>    peer_transit_gateway_id = string<br>    route_table_association = string<br>    peer_routes             = map(list(string))<br>  }))</pre> | `{}` | no |
-| <a name="input_transit_gateway_sharing"></a> [transit\_gateway\_sharing](#input\_transit\_gateway\_sharing) | Transit Gateway sharing configuration | <pre>map(object({<br>    principal_account_id          = string<br>    route_table_association       = string<br>    route_table_propagation       = list(string)<br>    transit_gateway_attachment_id = string<br>  }))</pre> | `{}` | no |
+| <a name="input_transit_gateway_sharing"></a> [transit\_gateway\_sharing](#input\_transit\_gateway\_sharing) | Transit Gateway sharing configuration. Possible principal is an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | <pre>map(object({<br>    principal                     = string<br>    route_table_association       = optional(string, "")<br>    route_table_propagation       = optional(list(string), [])<br>    transit_gateway_attachment_id = optional(string, "")<br>  }))</pre> | `{}` | no |
 | <a name="input_vpn_connection"></a> [vpn\_connection](#input\_vpn\_connection) | VPN connection configuration | <pre>map(object({<br>    customer_gateway_bgp_asn    = number<br>    customer_gateway_ip_address = string<br>    enable_logs                 = optional(bool, true)<br>    log_kms_key_arn             = optional(string)<br>    log_group_arn               = optional(string)<br>    log_group_name              = optional(string, "/platform/transit-gateway-vpn-logs")<br>    log_output_format           = optional(string, "json")<br>    retention_in_days           = optional(number, 90)<br>    route_table_association     = string<br>    route_table_propagation     = list(string)<br>    tunnel1_options = object({<br>      dpd_timeout_action           = optional(string, "clear")<br>      dpd_timeout_seconds          = optional(number, 30)<br>      ike_versions                 = optional(list(string), ["ikev2"])<br>      inside_cidr                  = string<br>      phase1_dh_group_numbers      = optional(list(number), [21])<br>      phase1_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase1_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase1_lifetime_seconds      = optional(number, 28800)<br>      phase2_dh_group_numbers      = optional(list(number), [21])<br>      phase2_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase2_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase2_lifetime_seconds      = optional(number, 3600)<br>      rekey_fuzz_percentage        = optional(number, 100)<br>      rekey_margin_time_seconds    = optional(number, 540)<br>      replay_window_size           = optional(number, 1024)<br>      startup_action               = optional(string, "add")<br>    })<br>    tunnel2_options = object({<br>      dpd_timeout_action           = optional(string, "clear")<br>      dpd_timeout_seconds          = optional(number, 30)<br>      ike_versions                 = optional(list(string), ["ikev2"])<br>      inside_cidr                  = string<br>      phase1_dh_group_numbers      = optional(list(number), [21])<br>      phase1_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase1_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase1_lifetime_seconds      = optional(number, 28800)<br>      phase2_dh_group_numbers      = optional(list(number), [21])<br>      phase2_encryption_algorithms = optional(list(string), ["AES256-GCM-16"])<br>      phase2_integrity_algorithms  = optional(list(string), ["SHA2-512"])<br>      phase2_lifetime_seconds      = optional(number, 3600)<br>      rekey_fuzz_percentage        = optional(number, 100)<br>      rekey_margin_time_seconds    = optional(number, 540)<br>      replay_window_size           = optional(number, 1024)<br>      startup_action               = optional(string, "add")<br>    })<br>  }))</pre> | `{}` | no |
 
 ## Outputs

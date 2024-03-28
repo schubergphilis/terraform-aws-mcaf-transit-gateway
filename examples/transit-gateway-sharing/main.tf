@@ -8,10 +8,10 @@ module "transit_gateway" {
 
   transit_gateway_sharing = {
     sharing-1 = {
-      principal_account_id          = "222222222222"
+      principal                     = "222222222222"
       route_table_association       = "vpc"
       route_table_propagation       = ["shared", "vpc"]
-      transit_gateway_attachment_id = "dfdfdfdf"
+      transit_gateway_attachment_id = "tgw-attach-0123456789abcdefg"
     }
   }
 

@@ -206,7 +206,7 @@ resource "aws_ram_resource_association" "default" {
 resource "aws_ram_principal_association" "default" {
   for_each = var.transit_gateway_sharing
 
-  principal          = each.value.principal_account_id
+  principal          = each.value.principal
   resource_share_arn = aws_ram_resource_share.default[0].arn
 }
 
