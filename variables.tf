@@ -34,6 +34,12 @@ variable "name" {
   type        = string
 }
 
+variable "outside_ip_address_type" {
+  type        = string
+  default     = "PublicIpv4"
+  description = "The type of IP address to use for the outside interface. Valid values are 'PublicIpv4' and 'PrivateIpv4'."
+}
+
 variable "route_tables" {
   description = "Route Tables to create on the Transit Gateway"
   type        = list(any)
