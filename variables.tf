@@ -38,6 +38,11 @@ variable "outside_ip_address_type" {
   type        = string
   default     = "PublicIpv4"
   description = "The type of IP address to use for the outside interface. Valid values are 'PublicIpv4' and 'PrivateIpv4'."
+
+  validation {
+    condition     = var.outside_ip_address_type != null ? contains(["PublicIpv4", "PrivateIpv4"], var.outside_ip_address_type) : true
+    error_message = "Allowed values for outside_ip_address_type are \"PublicIpv4\" or \"PrivateIpv4\"."
+  }
 }
 
 variable "route_tables" {
