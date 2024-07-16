@@ -260,7 +260,7 @@ resource "aws_vpn_connection" "default" {
   for_each = var.vpn_connection
 
   customer_gateway_id     = aws_customer_gateway.default[each.key].id
-  outside_ip_address_type = var.outside_ip_address_type
+  outside_ip_address_type = each.value.outside_ip_address_type
   transit_gateway_id      = aws_ec2_transit_gateway.default.id
   type                    = "ipsec.1"
 

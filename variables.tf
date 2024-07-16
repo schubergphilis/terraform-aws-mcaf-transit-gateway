@@ -34,17 +34,6 @@ variable "name" {
   type        = string
 }
 
-variable "outside_ip_address_type" {
-  type        = string
-  default     = "PublicIpv4"
-  description = "The type of IP address to use for the outside interface. Valid values are 'PublicIpv4' and 'PrivateIpv4'."
-
-  validation {
-    condition     = var.outside_ip_address_type != null ? contains(["PublicIpv4", "PrivateIpv4"], var.outside_ip_address_type) : true
-    error_message = "Allowed values for outside_ip_address_type are \"PublicIpv4\" or \"PrivateIpv4\"."
-  }
-}
-
 variable "route_tables" {
   description = "Route Tables to create on the Transit Gateway"
   type        = list(any)
@@ -126,10 +115,11 @@ variable "vpn_connection" {
     customer_gateway_bgp_asn    = number
     customer_gateway_ip_address = string
     enable_logs                 = optional(bool, true)
-    log_kms_key_arn             = optional(string)
     log_group_arn               = optional(string)
     log_group_name              = optional(string, "/platform/transit-gateway-vpn-logs")
+    log_kms_key_arn             = optional(string)
     log_output_format           = optional(string, "json")
+    outside_ip_address_type     = optional(string, "PublicIpv4")
     retention_in_days           = optional(number, 90)
     route_table_association     = string
     route_table_propagation     = list(string)
