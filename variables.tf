@@ -70,8 +70,8 @@ variable "transit_gateway_auto_accept_shared_attachments" {
 }
 
 variable "transit_gateway_cidr_blocks" {
-  type        = string
-  default     = ""
+  type        = list(string)
+  default     = []
   description = "One or more IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6."
 }
 
