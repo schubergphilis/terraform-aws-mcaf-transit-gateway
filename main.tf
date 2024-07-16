@@ -52,6 +52,7 @@ resource "aws_ec2_transit_gateway" "default" {
   default_route_table_association = var.transit_gateway_default_route_table_association ? "enable" : "disable"
   default_route_table_propagation = var.transit_gateway_default_route_table_propagation ? "enable" : "disable"
   description                     = var.description
+  transit_gateway_cidr_blocks     = var.transit_gateway_cidr_blocks
   tags                            = merge(var.tags, { Name = var.name })
 }
 
