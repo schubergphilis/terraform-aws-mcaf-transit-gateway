@@ -52,6 +52,7 @@ resource "aws_ec2_transit_gateway" "default" {
   default_route_table_association = var.transit_gateway_default_route_table_association ? "enable" : "disable"
   default_route_table_propagation = var.transit_gateway_default_route_table_propagation ? "enable" : "disable"
   description                     = var.description
+  transit_gateway_cidr_blocks     = var.transit_gateway_cidr_blocks
   tags                            = merge(var.tags, { Name = var.name })
 }
 
@@ -258,9 +259,10 @@ resource "aws_customer_gateway" "default" {
 resource "aws_vpn_connection" "default" {
   for_each = var.vpn_connection
 
-  customer_gateway_id = aws_customer_gateway.default[each.key].id
-  transit_gateway_id  = aws_ec2_transit_gateway.default.id
-  type                = "ipsec.1"
+  customer_gateway_id     = aws_customer_gateway.default[each.key].id
+  outside_ip_address_type = var.outside_ip_address_type
+  transit_gateway_id      = aws_ec2_transit_gateway.default.id
+  type                    = "ipsec.1"
 
   tunnel1_dpd_timeout_action           = each.value.tunnel1_options.dpd_timeout_action
   tunnel1_dpd_timeout_seconds          = each.value.tunnel1_options.dpd_timeout_seconds

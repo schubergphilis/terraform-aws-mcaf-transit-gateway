@@ -34,6 +34,17 @@ variable "name" {
   type        = string
 }
 
+variable "outside_ip_address_type" {
+  type        = string
+  default     = "PublicIpv4"
+  description = "The type of IP address to use for the outside interface. Valid values are 'PublicIpv4' and 'PrivateIpv4'."
+
+  validation {
+    condition     = var.outside_ip_address_type != null ? contains(["PublicIpv4", "PrivateIpv4"], var.outside_ip_address_type) : true
+    error_message = "Allowed values for outside_ip_address_type are \"PublicIpv4\" or \"PrivateIpv4\"."
+  }
+}
+
 variable "route_tables" {
   description = "Route Tables to create on the Transit Gateway"
   type        = list(any)
@@ -67,6 +78,12 @@ variable "transit_gateway_auto_accept_shared_attachments" {
   type        = bool
   default     = false
   description = "Whether resource attachment requests are automatically accepted"
+}
+
+variable "transit_gateway_cidr_blocks" {
+  type        = list(string)
+  default     = []
+  description = "One or more IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6."
 }
 
 variable "transit_gateway_default_route_table_association" {
