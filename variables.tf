@@ -114,6 +114,7 @@ variable "vpn_connection" {
   type = map(object({
     customer_gateway_bgp_asn    = number
     customer_gateway_ip_address = string
+    dx_gateway_id               = optional(string)
     enable_logs                 = optional(bool, true)
     log_group_arn               = optional(string)
     log_group_name              = optional(string, "/platform/transit-gateway-vpn-logs")
@@ -162,4 +163,10 @@ variable "vpn_connection" {
   }))
   default     = {}
   description = "VPN connection configuration"
+
+
+  validation {
+    condition     = alltrue([for key, connection in var.vpn_connection : connection.outside_ip_address_type == "PrivateIpv4" ? connection.dx_gateway_id != null : true])
+    error_message = "If outside_ip_address_type is PrivateIpv4, dx_gateway_id can not be null"
+  }
 }
