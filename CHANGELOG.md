@@ -5,6 +5,16 @@ All notable changes to this project will automatically be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## v0.6.2 - 2024-08-23
+
+### What's Changed
+
+#### 🐛 Bug Fixes
+
+* fix: Specify transport_transit_gateway_attachment_id when vpn connection has outside_ip_address_type of private (#14) @jorrite
+
+**Full Changelog**: https://github.com/schubergphilis/terraform-aws-mcaf-transit-gateway/compare/v0.6.1...v0.6.2
+
 ## v0.6.1 - 2024-07-24
 
 ### What's Changed
