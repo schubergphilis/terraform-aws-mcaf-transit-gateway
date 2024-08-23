@@ -112,17 +112,18 @@ variable "transit_gateway_sharing" {
 
 variable "vpn_connection" {
   type = map(object({
-    customer_gateway_bgp_asn    = number
-    customer_gateway_ip_address = string
-    enable_logs                 = optional(bool, true)
-    log_group_arn               = optional(string)
-    log_group_name              = optional(string, "/platform/transit-gateway-vpn-logs")
-    log_kms_key_arn             = optional(string)
-    log_output_format           = optional(string, "json")
-    outside_ip_address_type     = optional(string, "PublicIpv4")
-    retention_in_days           = optional(number, 90)
-    route_table_association     = string
-    route_table_propagation     = list(string)
+    customer_gateway_bgp_asn                = number
+    customer_gateway_ip_address             = string
+    enable_logs                             = optional(bool, true)
+    log_group_arn                           = optional(string)
+    log_group_name                          = optional(string, "/platform/transit-gateway-vpn-logs")
+    log_kms_key_arn                         = optional(string)
+    log_output_format                       = optional(string, "json")
+    outside_ip_address_type                 = optional(string, "PublicIpv4")
+    retention_in_days                       = optional(number, 90)
+    route_table_association                 = string
+    route_table_propagation                 = list(string)
+    transport_transit_gateway_attachment_id = optional(string)
     tunnel1_options = object({
       dpd_timeout_action           = optional(string, "clear")
       dpd_timeout_seconds          = optional(number, 30)
@@ -162,4 +163,10 @@ variable "vpn_connection" {
   }))
   default     = {}
   description = "VPN connection configuration"
+
+
+  validation {
+    condition     = alltrue([for key, connection in var.vpn_connection : connection.outside_ip_address_type == "PrivateIpv4" ? connection.transport_transit_gateway_attachment_id != null : true])
+    error_message = "If outside_ip_address_type is PrivateIpv4, transport_transit_gateway_attachment_id can not be null"
+  }
 }
