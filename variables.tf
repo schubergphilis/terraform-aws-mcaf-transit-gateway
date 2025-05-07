@@ -13,31 +13,31 @@ variable "cloudwatch_flow_logs_configuration" {
 }
 
 variable "description" {
-  description = "Description of the EC2 Transit Gateway"
   type        = string
+  description = "Description of the EC2 Transit Gateway"
 }
 
 variable "enable_cloudwatch_flow_logs" {
-  description = "Set to true to enable Transit Gateway flow logs to be stored in Cloudwatch"
   type        = bool
   default     = true
+  description = "Set to true to enable Transit Gateway flow logs to be stored in Cloudwatch"
 }
 
 variable "enable_s3_flow_logs" {
-  description = "Set to true to enable Transit Gateway flow logs to be stored in S3"
   type        = bool
   default     = false
+  description = "Set to true to enable Transit Gateway flow logs to be stored in S3"
 }
 
 variable "name" {
-  description = "Name of the EC2 Transit Gateway"
   type        = string
+  description = "Name of the EC2 Transit Gateway"
 }
 
 variable "route_tables" {
-  description = "Route Tables to create on the Transit Gateway"
   type        = list(any)
   default     = ["default"]
+  description = "Route Tables to create on the Transit Gateway"
 }
 
 variable "s3_flow_logs_configuration" {
@@ -53,14 +53,15 @@ variable "s3_flow_logs_configuration" {
 }
 
 variable "tags" {
-  description = "Map of tags to set on Terraform created resources"
   type        = map(string)
+  default     = {}
+  description = "Map of tags to set on Terraform created resources"
 }
 
 variable "transit_gateway_asn" {
-  description = "BGP ASN used on the Transit Gateway"
   type        = number
   default     = 64512
+  description = "BGP ASN used on the Transit Gateway"
 }
 
 variable "transit_gateway_auto_accept_shared_attachments" {
