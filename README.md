@@ -1,3 +1,9 @@
+<!-- migrate-repo:banner -->
+> [!IMPORTANT]
+> **This repository has moved to [`schubergphilis-ep/terraform-aws-mcaf-transit-gateway`](https://github.com/schubergphilis-ep/terraform-aws-mcaf-transit-gateway).**
+> Please update your references and use the new location for issues, PRs, and contributions.
+<!-- migrate-repo:banner -->
+
 # terraform-aws-mcaf-transit-gateway
 Terraform module to setup and manage a Transit Gateway, it supports the following features:
  - Peering with another Transit Gateway
